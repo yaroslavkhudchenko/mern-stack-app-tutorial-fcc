@@ -17,7 +17,7 @@ router.route('/add').post((req, res) => {
     const newUser = new User({username}); // create the User with the given username
 
     newUser.save() // save to databse
-        .then(() => req.json('User added!'))
+        .then(() => res.json('User added!'))
         .catch(err => res.status(400).json('Error: ' + err)); // if error return 400 with err message
 });
 
