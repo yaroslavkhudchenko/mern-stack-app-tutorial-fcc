@@ -25,8 +25,8 @@ router.route('/add').post((req, res) => {
         date
     }); // create the Exercise with the given values
 
-    newUser.save() // save to databse
-        .then(() => req.json('User added!'))
+    newExercise.save() // save to databse
+        .then(() => req.json('Exercise added!'))
         .catch(err => res.status(400).json('Error: ' + err)); // if error return 400 with err message
 });
 
