@@ -9,7 +9,7 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err)); // if error return 400 with err message
 });
 
-// route => if url /users/add run this post
+// route => if url /users/add run this post(if post only)
 router.route('/add').post((req, res) => {
 
     const username = req.body.username; // get username - to check how
