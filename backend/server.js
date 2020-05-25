@@ -11,11 +11,11 @@ const port = process.env.PORT || 5000; // specify the port
 app.use(cors()); // app to use cors
 app.use(express.json()); // allow to parse json
 
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri,
+const uri = process.env.ATLAS_URI; // database uri
+mongoose.connect(uri, // start conection to db
     { 
-        useNewUrlParser : true, 
-        useCreateIndex: true
+        useNewUrlParser : true, // check
+        useCreateIndex: true // check
     }
 );
 
