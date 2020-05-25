@@ -30,8 +30,8 @@ const exercisesRouter = require('./routes/exercises');
 const usersRouter = require('./routes/users');
 
 // app to use routes
-app.use('/exercises', exercisesRouter);
-app.use('/users', usersRouter);
+app.use('/exercises', exercisesRouter); // when user go to app / exerices load exercisesRouter
+app.use('/users', usersRouter); // when user go to app / users load usersRouter
 
 
 // listen to the server(start server on port)
