@@ -1,10 +1,10 @@
 const router = require('express').Router();// import Router from express
 
-let Exercises = require('../models/exercise.model'); // import mongoose model
+let Exercise = require('../models/exercise.model'); // import mongoose model
 
 // route => handles imcoming http get requests /users
 router.route('/').get((req, res) => {
-    Exercises.find() // get list of all the exercises from mongodb database 
+    Exercise.find() // get list of all the exercises from mongodb database 
         .then(exercises => res.json(exercises)) // in json
         .catch(err => res.status(400).json('Error: ' + err)); // if error return 400 with err message
 });
@@ -29,6 +29,37 @@ router.route('/add').post((req, res) => {
         .then(() => res.json('Exercise added!'))
         .catch(err => res.status(400).json('Error: ' + err)); // if error return 400 with err message
 });
+
+// get the exercise with the given id
+router.route('/:id').get((req, res) => {
+    Exercise.findById(req.params.id)
+        .then(exercise => res.json(exercise))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+// delete the exercise with the given id
+router.route('/:id').delete((req, res) => {
+    Exercise.findByIdAndDelete(req.params.id)
+        .then(() => res.json('Exercise deleted.'))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+// update exercise with the given id
+router.route('/update/:id').post((req, res) => {
+    Exercise.findById(req.params.id)
+        .then(exercise => {
+            exercise.username = req.body.username;
+            exercise.description = req.body.description;
+            exercise.duration = Number(req.body.duration);
+            exercise.date = Date.parse(req.body.date);
+
+            exercise.save()
+                .then(() => res.json('Exercise updated!'))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 
 
 module.exports = router; // export router
