@@ -43,8 +43,8 @@ export const CreateExercise = () => {
     }
     useEffect(()=>{
         setState({
-            users: ['test user'],
-            username: 'test user'
+            users: ['test userAr'],
+            username: 'test userVa'
         })
     }, []);
 
@@ -54,7 +54,7 @@ export const CreateExercise = () => {
             <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label>Username: </label>
-                    <select ref="userInput"
+                    <select useref="userInput"
                         required
                         className="form-control"
                         value={state.username}
