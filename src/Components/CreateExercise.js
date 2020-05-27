@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import DatePicker from 'react-datepicker';
 
 export const CreateExercise = () => {
-    const [state, setStateHook] = useState({
+    const [createExerciseState, setStateHook] = useState({
         username: '21124',
-        description: '',
+        description: 'w',
         duration: 0,
         date: new Date(),
         users: ['21124']
@@ -12,53 +12,65 @@ export const CreateExercise = () => {
 
     const onChangeUsername = (e) => {
         setStateHook({
-            ...state,
+            ...createExerciseState,
             username: e.target.value
         });
         console.log('state as it is')
-        console.log(state);
+        console.log(createExerciseState);
     }
     const onChangeDescription = (e) => {
-        let d = state;
-        state.description = e.target.value;
+        e.persist()
+        console.log('start descr change->')
+        console.log(createExerciseState);
+        
+        // debugger;
 
-        setStateHook({d});
-        console.log('state as it is')
-        console.log(state);
+        createExerciseState.description = e.target.value;
+        //setStateHook({description:e.target.value})
+        setStateHook({
+            ...createExerciseState,
+            description : e.target.value
+        });
+
     }
     const onChangeDuration = (e) => {
         setStateHook({
-            ...state,
+            ...createExerciseState,
             duration: e.target.value
         });
     }
     const onChangeDate = (date) => {
         setStateHook({
-            ...state,
+            ...createExerciseState,
             date: date
         });
         console.log('state as it is')
-        console.log(state);
+        console.log(createExerciseState);
     }
     const onSubmit = (e) => {
         e.preventDefault();
         const exercise = {
-            username: state.username,
-            description: state.description,
-            duration: state.duration,
-            date: state.date,
+            username: createExerciseState.username,
+            description: createExerciseState.description,
+            duration: createExerciseState.duration,
+            date: createExerciseState.date,
         };
         console.log(exercise);
         window.location = '/';
     }
-   /*  useEffect(()=>{
+    useEffect(()=>{
         setStateHook({
-            ...state,
+            ...createExerciseState,
             users: ['test userAr'],
-            username: 'test userAr'
+            username: 'test userAr',
+            description: 'hello there ha ha ha'
         })
-    }, []); */
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); 
+    useEffect(() => {
+       console.log('set STATEEEEEEEEEEEEE!!!!!!!!!!!!')
+       console.log(createExerciseState)
+    }, [createExerciseState]); 
     return (
         <div>
             <h3>Create New Exercise Log</h3>
@@ -71,10 +83,10 @@ export const CreateExercise = () => {
                     <select useref="userInput"
                         required
                         className="form-control"
-                        value={state.username}
+                        value={createExerciseState.username}
                         onChange={onChangeUsername}>
                         {
-                            state.users.map(function (user) {
+                            createExerciseState.users && createExerciseState.users.map(function (user) {
                                 return <option
                                     key={user}
                                     value={user}>{user}
@@ -88,7 +100,7 @@ export const CreateExercise = () => {
                     <input type="text"
                         required
                         className="form-control"
-                        value={state.description}
+                        value={createExerciseState.description}
                         onChange={onChangeDescription}
                     />
                 </div>
@@ -97,7 +109,7 @@ export const CreateExercise = () => {
                     <input
                         type="text"
                         className="form-control"
-                        value={state.duration}
+                        value={createExerciseState.duration}
                         onChange={onChangeDuration}
                     />
                 </div>
@@ -109,7 +121,7 @@ export const CreateExercise = () => {
                     <label>Date: </label>
                     <div>
                         <DatePicker
-                            selected={state.date}
+                            selected={createExerciseState.date}
                             onChange={onChangeDate}
                         />
                     </div>
@@ -118,7 +130,12 @@ export const CreateExercise = () => {
                 <div className="form-group">
                     <input type="submit" value="Create Exercise Log" className="btn btn-primary" />
                 </div>
-            </form>
+
+            </form>                
+            <div id='dupa' style={{ 'position': 'fixed', 'bottom': '50px' }}>
+                {createExerciseState.description}
+            </div>
+
         </div>
     )
 }
