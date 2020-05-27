@@ -1,4 +1,5 @@
 import React from 'react';
+// to link different routers
 import { Link } from 'react-router-dom';
 
 export const Navbar = () => 

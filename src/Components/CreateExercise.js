@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export const CreateExercise = () => {
     const [createExerciseState, setStateHook] = useState({
@@ -7,7 +8,7 @@ export const CreateExercise = () => {
         description: 'w',
         duration: 0,
         date: new Date(),
-        users: ['21124']
+        users: []
     })
 
     const onChangeUsername = (e) => {
@@ -15,23 +16,13 @@ export const CreateExercise = () => {
             ...createExerciseState,
             username: e.target.value
         });
-        console.log('state as it is')
-        console.log(createExerciseState);
+        
     }
     const onChangeDescription = (e) => {
-        e.persist()
-        console.log('start descr change->')
-        console.log(createExerciseState);
-        
-        // debugger;
-
-        createExerciseState.description = e.target.value;
-        //setStateHook({description:e.target.value})
         setStateHook({
             ...createExerciseState,
             description : e.target.value
         });
-
     }
     const onChangeDuration = (e) => {
         setStateHook({
@@ -44,8 +35,6 @@ export const CreateExercise = () => {
             ...createExerciseState,
             date: date
         });
-        console.log('state as it is')
-        console.log(createExerciseState);
     }
     const onSubmit = (e) => {
         e.preventDefault();
@@ -56,8 +45,9 @@ export const CreateExercise = () => {
             date: createExerciseState.date,
         };
         console.log(exercise);
-        window.location = '/';
+        window.location = '/'; // go back to the list of the exerices(homepage)
     }
+    // run once at the beginning (like componentdidmount with classes)
     useEffect(()=>{
         setStateHook({
             ...createExerciseState,
@@ -67,10 +57,13 @@ export const CreateExercise = () => {
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); 
+
+    // run every time the state(passed parameter) is changed
     useEffect(() => {
-       console.log('set STATEEEEEEEEEEEEE!!!!!!!!!!!!')
+       console.log('STATE CHANED 0_0')
        console.log(createExerciseState)
-    }, [createExerciseState]); 
+    }, [createExerciseState]);
+
     return (
         <div>
             <h3>Create New Exercise Log</h3>
@@ -86,7 +79,7 @@ export const CreateExercise = () => {
                         value={createExerciseState.username}
                         onChange={onChangeUsername}>
                         {
-                            createExerciseState.users && createExerciseState.users.map(function (user) {
+                            createExerciseState.users.map(function (user) {
                                 return <option
                                     key={user}
                                     value={user}>{user}
