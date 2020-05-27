@@ -44,6 +44,7 @@ export const CreateExercise = () => {
             duration: createExerciseState.duration,
             date: createExerciseState.date,
         };
+        console.log('--------------')
         console.log(exercise);
         window.location = '/'; // go back to the list of the exerices(homepage)
     }
@@ -125,10 +126,6 @@ export const CreateExercise = () => {
                 </div>
 
             </form>                
-            <div id='dupa' style={{ 'position': 'fixed', 'bottom': '50px' }}>
-                {createExerciseState.description}
-            </div>
-
         </div>
     )
 }
