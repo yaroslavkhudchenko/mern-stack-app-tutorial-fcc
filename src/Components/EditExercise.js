@@ -6,7 +6,7 @@ import axios from 'axios';
 export const EditExercise = (props) => {
 
     const [editExerciseState, setStateHook] = useState({
-        username: '',
+        username: '1',
         description: '',
         duration: 0,
         date: new Date(),
@@ -58,43 +58,40 @@ export const EditExercise = (props) => {
 
         window.location = '/';
     }
-
+   
     useEffect(()=>{
+
         axios.get('http://localhost:5000/exercises/' + props.match.params.id)
             .then(res => {
-                setStateHook({
-                    ...editExerciseState,
-                    username: res.data.username,
-                    description: res.data.description,
-                    duration: res.data.duration,
-                    date: new Date(res.data.date)
-                })
-                console.log('loaded wwwwwwwwwwwwwwwwwwwwwwww ')
-                console.log(props.match.params.id)
-                
+                axios.get('http://localhost:5000/users/')
+                    .then(ress => {
+                        setStateHook({
+                            username: res.data.username,
+                            description: res.data.description,
+                            duration: res.data.duration,
+                            date: new Date(res.data.date),
+                            users : ress.data.map(user => user.username)
+                        })
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             })
             .catch(function (error) {
                 console.log(error);
             })
 
-            console.log('edit state between')
-            console.log(editExerciseState)
 
+        
   
-        axios.get('http://localhost:5000/users/')
-            .then(res => {
-                setStateHook({
-                    users: res.data.map(user => user.username) 
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-            })  
-    },[])
+        
+    },[]);
+
+
     useEffect(()=>{
         console.log('effect changed state in edit exersice hehe');
         console.log(editExerciseState);
-    })
+    },[editExerciseState])
     return(
         <div>
             <h3>Edit Exercise Log</h3>
