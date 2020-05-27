@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
 
 export const CreateExercise = () => {
     const [createExerciseState, setStateHook] = useState({
-        username: '21124',
-        description: 'w',
+        username: '',
+        description: '',
         duration: 0,
         date: new Date(),
         users: []
@@ -44,18 +45,26 @@ export const CreateExercise = () => {
             duration: createExerciseState.duration,
             date: createExerciseState.date,
         };
-        console.log('--------------')
         console.log(exercise);
+
+        axios.post('http://localhost:5000/exercises/add', exercise) // send http post request to this url
+            .then(res => console.log(res.data));
+
         window.location = '/'; // go back to the list of the exerices(homepage)
     }
     // run once at the beginning (like componentdidmount with classes)
     useEffect(()=>{
-        setStateHook({
-            ...createExerciseState,
-            users: ['test userAr'],
-            username: 'test userAr',
-            description: 'hello there ha ha ha'
-        })
+        
+        axios.get('http://localhost:5000/users/')
+            .then(res => {
+                res.data.length > 0 ?
+                    setStateHook({
+                        users:res.data.map(user=>user.username),
+                        username:res.data[0].username
+                    }) :
+                console.log('there is no exercises on your list')
+            })
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); 
 
@@ -77,13 +86,13 @@ export const CreateExercise = () => {
                     <select useref="userInput"
                         required
                         className="form-control"
-                        value={createExerciseState.username}
+                        value={createExerciseState.username || ''}
                         onChange={onChangeUsername}>
                         {
                             createExerciseState.users.map(function (user) {
                                 return <option
                                     key={user}
-                                    value={user}>{user}
+                                    value={user || ''}>{user}
                                 </option>;
                             })
                         }
@@ -94,7 +103,7 @@ export const CreateExercise = () => {
                     <input type="text"
                         required
                         className="form-control"
-                        value={createExerciseState.description}
+                        value={createExerciseState.description || ''}
                         onChange={onChangeDescription}
                     />
                 </div>
@@ -103,7 +112,7 @@ export const CreateExercise = () => {
                     <input
                         type="text"
                         className="form-control"
-                        value={createExerciseState.duration}
+                        value={createExerciseState.duration || ''}
                         onChange={onChangeDuration}
                     />
                 </div>
