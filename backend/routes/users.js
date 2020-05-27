@@ -12,7 +12,7 @@ router.route('/').get((req, res) => {
 // route => if url /users/add run this post(if post only)
 router.route('/add').post((req, res) => {
 
-    const username = req.body.username; // get username - to check how
+    const username = req.body.username; // get username
 
     const newUser = new User({username}); // create the User with the given username
 

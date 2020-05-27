@@ -1,4 +1,5 @@
 import React,{ useState } from 'react';
+import axios from 'axios';
 
 export const CreateUser = () => {
     // set the state and function to change the state
@@ -11,12 +12,16 @@ export const CreateUser = () => {
         })
 
     }
+
     const onSubmit = (e) => {
         e.preventDefault();
         const newUser = {
             username: createUserState.username
         };
         console.log(newUser);
+
+        axios.post('http://localhost:5000/users/add', newUser) // send http post request to this url
+            .then(res => console.log(res.data));
 
         setStateHook({
             username: ''
